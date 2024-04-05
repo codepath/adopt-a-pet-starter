@@ -8,45 +8,15 @@ const PetsList = ({ filters }) => {
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
+  // Update this to call your server to filter pets
   useEffect(() => {
-    const queryParams = new URLSearchParams({
-      ...(filters.type && { type: filters.type }),
-      ...(filters.ageMin && { age_min: filters.ageMin }),
-      ...(filters.ageMax && { age_max: filters.ageMax }),
-    }).toString()
-
-    fetch(`http://localhost:3000/pets?${queryParams}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Response failed')
-        }
-        return response.json()
-      })
-      .then(data => {
-        setPets(data)
-      })
-      .catch(error => {
-        console.error('There was a problem with your fetch operation:', error)
-        setError('Failed to fetch pets. Please try again later.')
-      });
+    
   }, [filters])
 
+  // Update this to call your server to delete a pet
   const handleDelete = (id) => {
-    fetch(`http://localhost:3000/pets/${id}`, {
-      method: 'DELETE',
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to delete the pet.')
-      }
-
-      setPets(pets.filter(pet => pet.id !== id))
-    })
-    .catch(error => {
-      console.error('Error:', error)
-      setError('Failed to delete pet. Please try again later.')
-    });
-  };
+    
+  }
 
   const handleUpdate = (id) => {
     navigate(`/update-pet/${id}`)
@@ -66,7 +36,7 @@ const PetsList = ({ filters }) => {
         />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default PetsList;
+export default PetsList

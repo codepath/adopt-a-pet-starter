@@ -13,32 +13,9 @@ const UpdatePetForm = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
 
+  // Update this to call your server to retrieve the pet info
   useEffect(() => {
-    if (petId) {
-      fetch(`http://localhost:3000/pets/${petId}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Pet not found.')
-          }
-          return response.json()
-        })
-        .then(data => {
-          setFormData({
-            name: data.name,
-            type: data.type,
-            age: data.age.toString(),
-          });
-          setIsLoading(false)
-        })
-        .catch(error => {
-          console.error('Error:', error)
-          setError('Failed to fetch pet details.')
-          setIsLoading(false)
-        })
-    } else {
-      setError('No pet ID provided.')
-      setIsLoading(false)
-    }
+    
   }, [petId])
 
   const handleChange = (e) => {
@@ -50,35 +27,10 @@ const UpdatePetForm = () => {
     }))
   }
 
+  // Update this to call your server to update the pet
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const updatedFormData = {
-      ...formData,
-      age: parseInt(formData.age, 10)
-    }
-
-    fetch(`http://localhost:3000/pets/${petId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedFormData),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to update the pet.')
-      }
-      return response.json()
-    })
-    .then(data => {
-      console.log('Success:', data)
-      navigate('/')
-    })
-    .catch(error => {
-      console.error('Error:', error)
-      setError('Failed to update pet. Please try again later.')
-    })
   }
 
   if (isLoading) return <div>🐱 No pet found! 🐶</div>

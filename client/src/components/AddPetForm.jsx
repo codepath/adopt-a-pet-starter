@@ -18,30 +18,11 @@ const AddPetForm = ({ onPetAdded }) => {
     }))
   }
 
+  // Update this to call your server to add a new pet
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    fetch('http://localhost:3000/pets', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-
-      throw new Error('Failed to add pet.')
-    })
-    .then(data => {
-      console.log('Success:', data)
-      onPetAdded()
-    })
-    .catch((error) => {
-      console.error('Error:', error)
-    })
+    
   }
 
   return (
